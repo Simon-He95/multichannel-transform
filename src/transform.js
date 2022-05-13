@@ -69,7 +69,8 @@ const whitelist = ['add-global-class', 'ext-class'];
 let externalClasses = [];
 function transformWhitelistProps(props, key) {
   whitelist.forEach(_class => {
-    props[key] = props[key].replace(setClassReg(_class), `{{${transformClass(_class)}}}`);
+    if (props[key])
+      props[key] = props[key].replace(setClassReg(_class), `{{${transformClass(_class)}}}`);
   });
 }
 function transformClass(_class) {
@@ -137,7 +138,7 @@ function parserProps$3(_props = {}, child, filters = []) {
           return e.replace(r, r + '.join(" ")');
         });
       }
-      if (!filters.includes(key)) {
+      if (!filters.includes(key) && props[key]) {
         strProps.push(`${key}="${props[key].replace(/"/g, "'")}"`);
       }
     }
