@@ -42,13 +42,15 @@ function toggleDark() {
     <div v-else-if="selected === 'toXhs'" i-akar-icons:book-open p-5 m-b-10></div>
     <div v-else-if="selected === 'toKS'" i-simple-icons:kuaishou p-5 m-b-10></div>
     <div v-else-if="selected === 'toBaidu'" i-ri:baidu-fill p-5 m-b-10></div>
+    <div v-else-if="selected === 'toQQ'" i-simple-icons:tencentqq p-5 m-b-10></div>
     <div v-else i-material-symbols:transform-rounded p-5 m-b-10></div>
     <select v-model="selected" border-rd-1 p-2>
       <option disabled value="">请选择转换渠道</option>
       <option value="toAlipay">转支付宝</option>
       <option value="toXhs">转小红书</option>
       <option value="toKS">转快手</option>
-      <option value="toBaidu">百度</option>
+      <option value="toBaidu">转百度</option>
+      <option value="toQQ">转QQ</option>
     </select>
   </div>
   <main flex="~" justify-between w-full h-full box-border p-5>

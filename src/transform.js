@@ -69,8 +69,7 @@ const whitelist = ['add-global-class', 'ext-class'];
 let externalClasses = [];
 function transformWhitelistProps(props, key) {
   whitelist.forEach(_class => {
-    if (props[key])
-      props[key] = props[key].replace(setClassReg(_class), `{{${transformClass(_class)}}}`);
+    props[key] = props[key].replace(setClassReg(_class), `{{${transformClass(_class)}}}`);
   });
 }
 function transformClass(_class) {
@@ -98,7 +97,7 @@ function replaceExternalClass(props) {
  * @LastEditTime: 2022-04-22 10:17:59
  * @FilePath: \saas-fe-titan-tag-transform\src\parser\aliParser.ts
  */
-function parserProps$3(_props = {}, child, filters = []) {
+function parserProps$4(_props = {}, child, filters = []) {
   const strProps = [];
   const props = replaceExternalClass(_props);
   Object.keys(props).forEach(key => {
@@ -138,7 +137,7 @@ function parserProps$3(_props = {}, child, filters = []) {
           return e.replace(r, r + '.join(" ")');
         });
       }
-      if (!filters.includes(key) && props[key]) {
+      if (!filters.includes(key)) {
         strProps.push(`${key}="${props[key].replace(/"/g, "'")}"`);
       }
     }
@@ -165,11 +164,11 @@ function aliParserAST(vnode = []) {
         return strHtml.push(`${child.data.replace(/(?<=\{\{.*?)\$root/gms, 'Sroot')}`);
       }
       if (child.name === 'import-sjs' || child.name === 'import' || child.name === 'include') {
-        return strHtml.push(`<${child.name} ${parserProps$3(child.attribs, child)} />`);
+        return strHtml.push(`<${child.name} ${parserProps$4(child.attribs, child)} />`);
       }
       return originTag.includes(child.name)
-        ? strHtml.push(`<${child.name} ${parserProps$3(child.attribs, child)}>${dfs(child.children)}</${child.name}>`)
-        : strHtml.push(`<text${Object.keys(child.attribs).length > 0 ? ' ' + parserProps$3(child.attribs, child) : ''}><${child.name} ${parserProps$3(child.attribs, child, ['a:else', 'a:elif', 'a:if', 'a:for', 'a:key', 'a:for-item'])} data-_key_="${child._id_}" data-_pkey_="${child._pid_}" data-_pageId_={{$id}}>${dfs(child.children)}</${child.name}></text>`);
+        ? strHtml.push(`<${child.name} ${parserProps$4(child.attribs, child)}>${dfs(child.children)}</${child.name}>`)
+        : strHtml.push(`<text${Object.keys(child.attribs).length > 0 ? ' ' + parserProps$4(child.attribs, child) : ''}>\t<${child.name} ${parserProps$4(child.attribs, child, ['a:else', 'a:elif', 'a:if', 'a:for', 'a:key', 'a:for-item'])} data-_key_="${child._id_}" data-_pkey_="${child._pid_}" data-_pageId_={{$id}}>${dfs(child.children)}</${child.name}></text>`);
     });
     return strHtml.join('');
   }
@@ -178,7 +177,7 @@ function aliParserString(str) {
   return parseVnode(str);
 }
 
-function parserProps$2(props = {}, child, filters = []) {
+function parserProps$3(props = {}, child, filters = []) {
   const strProps = [];
   const reg = /bind:?click$/;
   Object.keys(props).forEach(key => {
@@ -228,14 +227,14 @@ function xhsParserAST(vnode) {
           if (child.attribs.src && child.attribs.src.startsWith('/')) {
             child.attribs.src = child.attribs.src;
           }
-          strHtml.push(`<${child.name} ${parserProps$2(child.attribs, child)} />`);
+          strHtml.push(`<${child.name} ${parserProps$3(child.attribs, child)} />`);
         }
         else {
           if (originTag.includes(child.name)) {
-            strHtml.push(`<${child.name} ${parserProps$2(child.attribs, child)}>${dfs(child.children)}</${child.name}>`);
+            strHtml.push(`<${child.name} ${parserProps$3(child.attribs, child)}>${dfs(child.children)}</${child.name}>`);
           }
           else {
-            strHtml.push(`<${child.name} ${parserProps$2(child.attribs, child)} data-_key_="${child._id_}" data-_pkey_="${child._pid_}" >${dfs(child.children)}</${child.name}>`);
+            strHtml.push(`<${child.name} ${parserProps$3(child.attribs, child)} data-_key_="${child._id_}" data-_pkey_="${child._pid_}" >${dfs(child.children)}</${child.name}>`);
           }
         }
       }
@@ -252,7 +251,7 @@ function xhsParserString(str) {
   return parseVnode(str);
 }
 
-function parserProps$1(props = {}, child, filters = []) {
+function parserProps$2(props = {}, child, filters = []) {
   const strProps = [];
   Object.keys(props).forEach(key => {
     if (props[key] === '' && key !== 'trackBy' && !filters.includes(key)) {
@@ -286,15 +285,15 @@ function baiduParserAST(vnode = []) {
           strHtml.push(`${child.data}`);
         }
         else if (child.name === 'import' || child.name === 'include') {
-          strHtml.push(`<${child.name} ${parserProps$1(child.attribs, child)} />`);
+          strHtml.push(`<${child.name} ${parserProps$2(child.attribs, child)} />`);
         }
         else {
           if (originTag.includes(child.name)) {
-            strHtml.push(`<${child.name} ${parserProps$1(child.attribs, child)}>${dfs(child.children)}</${child.name}>`);
+            strHtml.push(`<${child.name} ${parserProps$2(child.attribs, child)}>${dfs(child.children)}</${child.name}>`);
           }
           else {
             child.name = transformTagName(child.name);
-            strHtml.push(`<${child.name} ${parserProps$1(child.attribs, child)} data-_key_=${child._id_} data-_pkey_=${child._pid_} >${dfs(child.children)}</${child.name}>`);
+            strHtml.push(`<${child.name} ${parserProps$2(child.attribs, child)} data-_key_=${child._id_} data-_pkey_=${child._pid_} >${dfs(child.children)}</${child.name}>`);
           }
         }
       }
@@ -308,6 +307,47 @@ function baiduParserAST(vnode = []) {
  * @param str
  */
 function baiduParserString(str) {
+  return parseVnode(str);
+}
+
+function parserProps$1(props) {
+  const strProps = [];
+  props && Object.keys(props).forEach(key => {
+    if (props[key] === '') {
+      strProps.push(`${key}`);
+    }
+    else {
+      strProps.push(`${key}="${props[key]}"`);
+    }
+  });
+  return strProps.join(' ');
+}
+function qqParserAST(vnode = []) {
+  const strHtml = [];
+  vnode && vnode.forEach(child => {
+
+
+    if (child && child.type !== 'comment') {
+      if (child.type === 'text') {
+        strHtml.push(`${child.data}`);
+      }
+      else if (child.name === 'import' || child.name === 'include') {
+        strHtml.push(`<${child.name} ${parserProps$1(child.attribs)} />`);
+      }
+      else {
+        if (originTag.includes(child.name)) {
+          strHtml.push(`<${child.name} ${parserProps$1(child.attribs)}>${qqParserAST(child.children)}</${child.name}>`);
+        }
+        else {
+          child.name = transformTagName(child.name);
+          strHtml.push(`<${child.name} ${parserProps$1(child.attribs)} data-_key_=${child._id_} data-_pkey_=${child._pid_} >${qqParserAST(child.children)}</${child.name}>`);
+        }
+      }
+    }
+  });
+  return strHtml.join('');
+}
+function qqParserString(str) {
   return parseVnode(str);
 }
 
@@ -384,7 +424,7 @@ function ksParserString(str) {
   return parseVnode(str);
 }
 
-function keyConvert$3(key) {
+function keyConvert$4(key) {
   return key
     .replace(/wx:/i, 'a:')
     .replace(/a:for-items/i, 'a:for')
@@ -496,10 +536,10 @@ const eventNames = {
   bindscrolltoupper: 'onScrollToUpper',
   bindscrolltolower: 'onScrollToLower'
 };
-function transformProps$3(props = {}) {
+function transformProps$4(props = {}) {
   const newProps = {};
   Object.keys(props).forEach((key, index) => {
-    const propsKey = keyConvert$3(key); // key转换
+    const propsKey = keyConvert$4(key); // key转换
     let propsValue = props[key];
     if (key.includes(':for-item') || key.includes(':for-index') || key.includes(':key')) {
       propsValue = valueConvert(props[key]); // value转换
@@ -514,7 +554,7 @@ function transformProps$3(props = {}) {
   return newProps;
 }
 
-function transformSpecialTag(tag) {
+function transformSpecialTag$1(tag) {
   return function (vnode) {
     if (vnode.attribs.src) {
       vnode.attribs.src = vnode.attribs.src.replace('.wxml', tag);
@@ -523,7 +563,7 @@ function transformSpecialTag(tag) {
   };
 }
 
-function transformWXS(name, source) {
+function transformWXS$1(name, source) {
   return function (vnode) {
     vnode.name = 'import-sjs';
     const { module, src } = vnode.attribs;
@@ -549,13 +589,13 @@ const BDTAG = '.swan';
 const KSTAG = '.ksml';
 
 // <import-sjs name="m1" from="./index.sjs"/>
-const transformAlipayWxs = transformWXS('name', 'from');
+const transformAlipayWxs = transformWXS$1('name', 'from');
 // <import-sjs src="../utils.sjs" module="utils" />
-const transformBdWxs = transformWXS('module', 'src');
-const transformAlipayTag = transformSpecialTag(ALIPAYTAG);
-const transformXhsTag = transformSpecialTag(XHSTAG);
-const transformBdTag = transformSpecialTag(BDTAG);
-const transformKsTag = transformSpecialTag(KSTAG);
+const transformBdWxs = transformWXS$1('module', 'src');
+const transformAlipayTag = transformSpecialTag$1(ALIPAYTAG);
+const transformXhsTag = transformSpecialTag$1(XHSTAG);
+const transformBdTag = transformSpecialTag$1(BDTAG);
+const transformKsTag = transformSpecialTag$1(KSTAG);
 
 function transformToAlipay(vnode) {
   return transformVnode$3(vnode);
@@ -573,7 +613,7 @@ function transformVnode$3(vnode) {
     if (['include', 'import'].indexOf(child.name) > -1) {
       child = transformAlipayTag(child);
     }
-    child.attribs = transformProps$3(child.attribs);
+    child.attribs = transformProps$4(child.attribs);
     if (child.children && child.children.length > 0) {
       child.children = transformToAlipay(child.children);
     }
@@ -581,7 +621,7 @@ function transformVnode$3(vnode) {
   });
 }
 
-function keyConvert$2(key) {
+function keyConvert$3(key) {
   return key
     .replace(/wx:/i, 'xhs:')
     .replace(/xhs:for-item/i, 'xhs:for-item')
@@ -589,10 +629,10 @@ function keyConvert$2(key) {
     .replace(/canvas-id/i, 'id');
 }
 
-function transformProps$2(props, child) {
+function transformProps$3(props, child) {
   const newProps = {};
   Object.keys(props).forEach((key) => {
-    const propsKey = keyConvert$2(key); // key转换
+    const propsKey = keyConvert$3(key); // key转换
     const propsValue = props[key];
     newProps[propsKey] = propsValue;
   });
@@ -610,7 +650,7 @@ function transformVnode$2(vnode) {
       if (['include', 'import'].indexOf(child.name) > -1) {
         child = transformXhsTag(child);
       }
-      child.attribs = transformProps$2(child.attribs);
+      child.attribs = transformProps$3(child.attribs);
     }
     if (child.children && child.children.length > 0) {
       child.children = transformVnode$2(child.children);
@@ -619,7 +659,7 @@ function transformVnode$2(vnode) {
   });
 }
 
-function keyConvert$1(key) {
+function keyConvert$2(key) {
   return key
     .replace(/wx:key/i, 'trackBy')
     .replace(/wx:/i, 's-')
@@ -628,10 +668,10 @@ function keyConvert$1(key) {
     .replace(/canvas-id/i, 'id');
 }
 
-function transformProps$1(props, child) {
+function transformProps$2(props, child) {
   const newProps = {};
   Object.keys(props).forEach((key) => {
-    const propsKey = keyConvert$1(key); // key转换
+    const propsKey = keyConvert$2(key); // key转换
     const propsValue = props[key];
     newProps[propsKey] = propsValue;
   });
@@ -653,7 +693,7 @@ function transformVnode$1(vnode) {
       if (['include', 'import'].indexOf(child.name) > -1) {
         child = transformBdTag(child);
       }
-      child.attribs = transformProps$1(child.attribs);
+      child.attribs = transformProps$2(child.attribs);
     }
     if (child.children && child.children.length > 0) {
       child.children = transformToBaidu(child.children);
@@ -662,13 +702,80 @@ function transformVnode$1(vnode) {
   });
 }
 
+function keyConvert$1(key) {
+  return key
+    .replace(/wx:/i, 'qq:')
+    .replace(/^:(\S)/i, '$1');
+}
+
+const model_update_key = '__update__key__';
+const modelReg = /model:\s*(.*?)/;
+function transformProps$1(props) {
+  const newProps = {};
+  const oldPropKeys = Object.keys(props);
+  oldPropKeys.forEach((key, index) => {
+    const propsValue = props[key];
+    const propsKey = keyConvert$1(key); // key转换
+    newProps[propsKey] = propsValue;
+  });
+  // 对externalClass做特殊处理
+  if (newProps.class) {
+    let propsValue = newProps.class;
+    newProps.class = propsValue;
+  }
+  const newPropKeys = Object.keys(newProps);
+  const modelProp = newPropKeys.find(key => modelReg.test(key));
+  // 判断有没有model:prop 属性
+  if (modelProp) {
+    const updateKey = newProps[modelProp].replace(/{{(.*?)}}/, function (rep, $1) {
+      return $1;
+    });
+    newProps[modelProp.replace(modelReg, '$1')] = newProps[modelProp];
+    newProps[`data-${model_update_key}`] = updateKey && updateKey.trim();
+    delete newProps[modelProp];
+  }
+  return newProps;
+}
+
+function transformSpecialTag(vnode) {
+  if (vnode.attribs.src) {
+    vnode.attribs.src = vnode.attribs.src.replace('.wxml', '.qml');
+  }
+  return vnode;
+}
+function transformWXS(vnode) {
+  vnode.name = 'qs';
+  if (vnode.attribs.src) {
+    let srcPath = vnode.attribs.src.replace('.wxs', '.qs');
+    vnode.attribs.src = srcPath;
+  }
+  return vnode;
+}
+
+function transformToQQ(vnode) {
+  vnode && vnode.forEach(child => {
+    if (child.name === 'wxs') {
+      child = transformWXS(child);
+    }
+    if (['include', 'import'].indexOf(child.name) > -1) {
+      child = transformSpecialTag(child);
+    }
+    if (child.attribs)
+      child.attribs = transformProps$1(child.attribs);
+    if (child.children && child.children.length > 0) {
+      child = transformToQQ(child.children);
+    }
+  });
+  return vnode;
+}
+
 function keyConvert(key) {
   return key
     .replace(/wx:/i, 'ks:')
     .replace(/^:(\S)/i, '$1');
 }
 
-function transformProps(props, tagName) {
+function transformProps(props) {
   const newProps = {};
   Object.keys(props).forEach((key) => {
     const propsKey = keyConvert(key); // key转换
@@ -742,6 +849,9 @@ class Transform {
    */
   toXhs(content) {
     return xhsParserAST(transformToXhs(xhsParserString(content)));
+  }
+  toQQ(content) {
+    return qqParserAST(transformToQQ(qqParserString(content)));
   }
   toKS(content, filePath) {
     // @ts-ignore
