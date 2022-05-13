@@ -5,7 +5,8 @@
   "scripts": {
     "test": "vitest",
     "dev": "vite --port 3333 --open",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "Simon <13917107469@163.com> (https://github.com/Simon-He95)",

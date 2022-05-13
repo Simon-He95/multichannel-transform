@@ -168,7 +168,7 @@ function aliParserAST(vnode = []) {
       }
       return originTag.includes(child.name)
         ? strHtml.push(`<${child.name} ${parserProps$3(child.attribs, child)}>${dfs(child.children)}</${child.name}>`)
-        : strHtml.push(`<text${Object.keys(child.attribs).length > 0 ? ' ' + parserProps$3(child.attribs, child) : ''}>\t<${child.name} ${parserProps$3(child.attribs, child, ['a:else', 'a:elif', 'a:if', 'a:for', 'a:key', 'a:for-item'])} data-_key_="${child._id_}" data-_pkey_="${child._pid_}" data-_pageId_={{$id}}>${dfs(child.children)}</${child.name}></text>`);
+        : strHtml.push(`<text${Object.keys(child.attribs).length > 0 ? ' ' + parserProps$3(child.attribs, child) : ''}><${child.name} ${parserProps$3(child.attribs, child, ['a:else', 'a:elif', 'a:if', 'a:for', 'a:key', 'a:for-item'])} data-_key_="${child._id_}" data-_pkey_="${child._pid_}" data-_pageId_={{$id}}>${dfs(child.children)}</${child.name}></text>`);
     });
     return strHtml.join('');
   }

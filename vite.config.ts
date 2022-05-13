@@ -10,6 +10,7 @@ import Icons from 'unplugin-icons/vite'
 
 
 export default defineConfig({
+  base: "./",
   plugins: [
     Vue({
       reactivityTransform: true,

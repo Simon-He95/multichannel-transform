@@ -7,6 +7,7 @@ const type = defineProps<{ selected: string }>();
 const result = ref("");
 watchEffect(() => {
   if (!type.selected) {
+    result.value = JSON.parse(JSON.stringify(template.value));
     return;
   }
   result.value = JSON.parse(JSON.stringify(transform[type.selected](template.value)));
