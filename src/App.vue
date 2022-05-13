@@ -26,7 +26,23 @@ function toggleDark() {
     </div>
   </nav>
 
-  <div flex="~" justify-center align-center m-t-10>
+  <div
+    flex="~"
+    justify-center
+    flex-col
+    items-center
+    :style="isDark ? 'color:rgb(229, 231, 235)' : 'rgb(55, 65, 81)'"
+  >
+    <div
+      v-if="selected === 'toAlipay'"
+      i-ant-design:alipay-circle-outlined
+      p-5
+      m-b-10
+    ></div>
+    <div v-else-if="selected === 'toXhs'" i-akar-icons:book-open p-5 m-b-10></div>
+    <div v-else-if="selected === 'toKS'" i-simple-icons:kuaishou p-5 m-b-10></div>
+    <div v-else-if="selected === 'toBaidu'" i-ri:baidu-fill p-5 m-b-10></div>
+    <div v-else i-material-symbols:transform-rounded p-5 m-b-10></div>
     <select v-model="selected" border-rd-1 p-2>
       <option disabled value="">请选择转换渠道</option>
       <option value="toAlipay">转支付宝</option>
