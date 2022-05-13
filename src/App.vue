@@ -12,7 +12,7 @@ function toggleDark() {
     <div class="spacer" />
     <div class="right">
       <a
-        href="https://github.com/Simon-He95"
+        href="https://github.com/Simon-He95/multichannel-transform/"
         target="_blank"
         title="GitHub"
         class="lt-md:hidden"
