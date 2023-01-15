@@ -6,4 +6,4 @@ transform template from wxml to other miniprogram
 
 
 ## Try it Online ⚡️
-[multichannel-transform](http://www.hejian.club:8080/multichannel-transform/)
+[multichannel-transform](https://multichannel-transform.netlify.app/)
